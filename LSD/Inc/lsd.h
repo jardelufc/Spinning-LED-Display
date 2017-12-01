@@ -64,5 +64,6 @@ void displayLine (int line);
 void displayChar (char ch);
 void displayString (char* str);
 
+double getSpeed ();
 
 #endif /* LSD_H_ */

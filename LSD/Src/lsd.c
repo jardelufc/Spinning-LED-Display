@@ -8,6 +8,25 @@
 #include "../Inc/lsd.h"
 #include "stm32f1xx_hal.h"
 #include "gpio.h"
+#include <time.h>
+
+double getSpeed () {
+    double freq = 0;
+    //time begin
+    //time end
+    int cur_state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0);
+    
+    while (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0) == cur_state) {
+        //time begin update
+    }
+    
+    while (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0) != cur_state) {
+        //time end
+    }
+    
+    //freq = 1/(end - begin) 
+    return freq;
+}
 
 void displayLine (int line)
 {
