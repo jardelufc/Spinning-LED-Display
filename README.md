@@ -9,3 +9,8 @@
 K = parâmetro de delay para repetição da mensagem; C = número de caracteres apresentados no display.
 
 Os valores constantes são relacionados a frequência do motor e duração do delay.
+
+
+**Como utilizar**
+
+ Com a estrutura mecânica, circuito montado e ligações físicas feitas corretamente, é possível utilizar a ferramenta Atollic para compilar o projeto. Após compilar, será gerado um arquivo ".hex". Com o arquivo ".hex"
