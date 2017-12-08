@@ -13,4 +13,6 @@ Os valores constantes são relacionados a frequência do motor e duração do de
 
 **Como utilizar**
 
- Com a estrutura mecânica, circuito montado e ligações físicas feitas corretamente, é possível utilizar a ferramenta Atollic para compilar o projeto. Após compilar, será gerado um arquivo ".hex". Com o arquivo ".hex"
+ Com a estrutura mecânica, circuito montado e ligações físicas feitas corretamente, é possível utilizar a ferramenta Atollic para compilar o projeto. Após compilar, será gerado um arquivo ".hex". Com o arquivo ".hex" deve ser gerado um ".dfu", pelo software DFU Manager, e gravar este na placa Black Pill (verificar se os pinos B0 e B1 estão em 0), com o software DFUSeDemo. Os passos foram feitos seguindo o tutorial disponibilizado por Danilo Coutinho, Jorge Reis e Jardel Silveira (https://docs.google.com/document/d/1n9KK-A_yHHdOaetmvmMrMA06DhVJY9tP9MlUf6t6dvM/edit)
+ 
+ 
