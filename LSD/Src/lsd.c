@@ -5,70 +5,128 @@
  *      Author: Mary
  */
 
-#include "../Inc/lsd.h"
+#include "lsd.h"
 #include "stm32f1xx_hal.h"
 #include "gpio.h"
 #include <time.h>
+#include <string.h>
 
-double getSpeed () {
-    double freq = 0;
-    //time begin
-    //time end
-    int cur_state = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0);
-    
-    while (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0) == cur_state) {
-        //time begin update
-    }
-    
-    while (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0) != cur_state) {
-        //time end
-    }
-    
-    //freq = 1/(end - begin) 
-    return freq;
+#define L0 1
+#define L1 2
+#define L2 4
+#define L3 8
+#define L4 16
+#define L5 32
+#define L6 64
+#define L7 128
+#define LALL 255
+
+#define DELAY_TIME 5
+
+const int chA[]={255,255,152,152,255,255,0};
+const int chB[]={255,255,153,153,153,102,0};
+const int chC[]={255,255,195,195,195,195,0};
+const int chD[]={255,255,219,219,255,126,0};
+const int chE[]={255,255,219,219,195,195,0};
+const int chF[]={255,255,216,216,192,192,0};
+const int chG[]={126,255,195,133,231,102,0};
+const int chH[]={255,255,24,24,255,255,0};
+const int chI[]={0,195,255,255,195,0,0};
+const int chJ[]={6,199,195,255,254,192,0};
+const int chK[]={255,255,24,60,231,195,0};
+const int chL[]={255,255,3,3,3,0,0};
+const int chM[]={255,255,96,48,96,255,255};
+const int chN[]={255,255,96,48,24,255,255};
+const int chO[]={126,255,195,195,255,126,0};
+const int chP[]={255,255,216,216,248,248,0};
+const int chQ[]={126,255,129,131,255,126,0};
+const int chR[]={255,255,216,220,247,99,0};
+const int chS[]={102,247,147,147,223,78,0};
+const int chT[]={192,192,255,255,192,192,0};
+const int chU[]={254,255,3,3,255,254,0};
+const int chV[]={224,252,31,3,31,252,224};
+const int chW[]={LALL, LALL, L1, L2, L1, LALL, LALL};
+const int chX[]={195,247,62,24,62,247,195};
+const int chY[]={192,240,59,63,252,240,0};
+const int chZ[]={0,199,207,219,243,227,0};
+
+double getSpeed ()
+{
+	double period = 0;
+	clock_t begin = clock();
+	clock_t end = clock();
+
+	int cur_value = HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0);
+	while (cur_value == HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0)) {
+		begin = clock();
+	}
+	while (cur_value != HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0)) {
+		end = clock();
+	}
+	period = (double)(end-begin)/CLOCKS_PER_SEC;
+	period *= 2;
+	period *= 1000;
+	return period;
+}
+
+void myDelayGlob(int ms)
+{
+
+	for(int i = 0; i<ms*215; i++){
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_SET);
+	};
+}
+
+void myDelay(int ms)
+{
+
+	for(int i = 0; i<ms*107; i++){
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_SET);
+	};
 }
 
 void displayLine (int line)
 {
+
 	if (line>=L7) {
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_BIT_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_SET);
 		line -=L7;
-	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_BIT_RESET);}
+	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);}
 
 	if (line>=L6) {
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_BIT_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_SET);
 		line -=L6;
-	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_BIT_RESET);}
+	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_PIN_RESET);}
 
 	if (line>=L5) {
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_BIT_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_SET);
 		line -=L5;
-	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_BIT_RESET);}
+	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_PIN_RESET);}
 
 	if (line>=L4) {
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_BIT_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_SET);
 		line -=L4;
-	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_BIT_RESET);}
+	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_PIN_RESET);}
 
 	if (line>=L3) {
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_BIT_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
 		line -=L3;
-	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3, GPIO_BIT_RESET);}
+	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);}
 
 	if (line>=L2) {
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_BIT_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);
 		line -=L2;
-	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_2, GPIO_BIT_RESET);}
+	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);}
 
 	if (line>=L1) {
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_BIT_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);
 		line -=L1;
-	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1, GPIO_BIT_RESET);}
+	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);}
 
 	if (line>=L0) {
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_BIT_SET);
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_SET);
 		line -=L0;
-	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_BIT_RESET);}
+	} else {HAL_GPIO_WritePin(GPIOA, GPIO_PIN_7, GPIO_PIN_RESET);}
 
 }
 
@@ -78,8 +136,8 @@ void displayChar(char ch)
 	int aux;
 	if (ch == 'A') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(A[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chA[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -87,8 +145,8 @@ void displayChar(char ch)
 
 	if (ch == 'B') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(B[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chB[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -96,8 +154,8 @@ void displayChar(char ch)
 
 	if (ch == 'C') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(C[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chC[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -105,8 +163,8 @@ void displayChar(char ch)
 
 	if (ch == 'D') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(D[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chD[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -114,8 +172,8 @@ void displayChar(char ch)
 
 	if (ch == 'E') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(E[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chE[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -123,8 +181,8 @@ void displayChar(char ch)
 
 	if (ch == 'F') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(F[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chF[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -132,8 +190,8 @@ void displayChar(char ch)
 
 	if (ch == 'G') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(G[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chG[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -141,8 +199,8 @@ void displayChar(char ch)
 
 	if (ch == 'H') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(H[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chH[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -150,8 +208,8 @@ void displayChar(char ch)
 
 	if (ch == 'I') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(I[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chI[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -159,8 +217,8 @@ void displayChar(char ch)
 
 	if (ch == 'J') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(J[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chJ[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -168,8 +226,8 @@ void displayChar(char ch)
 
 	if (ch == 'K') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(K[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chK[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -178,8 +236,8 @@ void displayChar(char ch)
 
 	if (ch == 'L') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(L[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chL[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -187,8 +245,8 @@ void displayChar(char ch)
 
 	if (ch == 'M') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(M[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chM[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -197,8 +255,8 @@ void displayChar(char ch)
 
 	if (ch == 'N') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(N[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chN[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -206,8 +264,8 @@ void displayChar(char ch)
 
 	if (ch == 'O') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(O[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chO[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -215,8 +273,8 @@ void displayChar(char ch)
 
 	if (ch == 'P') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(P[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chP[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -224,8 +282,8 @@ void displayChar(char ch)
 
 	if (ch == 'Q') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(Q[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chQ[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -233,8 +291,8 @@ void displayChar(char ch)
 
 	if (ch == 'R') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(R[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chR[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -242,8 +300,8 @@ void displayChar(char ch)
 
 	if (ch == 'S') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(S[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chS[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -251,8 +309,8 @@ void displayChar(char ch)
 
 	if (ch == 'T') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(T[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chT[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -260,8 +318,8 @@ void displayChar(char ch)
 
 	if (ch == 'U') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(U[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chU[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -269,8 +327,8 @@ void displayChar(char ch)
 
 	if (ch == 'V') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(V[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chV[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -278,8 +336,8 @@ void displayChar(char ch)
 
 	if (ch == 'W') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(W[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chW[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -287,8 +345,8 @@ void displayChar(char ch)
 
 	if (ch == 'X') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(X[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chX[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -296,8 +354,8 @@ void displayChar(char ch)
 
 	if (ch == 'Y') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(Y[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chY[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
@@ -305,23 +363,20 @@ void displayChar(char ch)
 
 	if (ch == 'Z') {
 		for (aux=0; aux<(7); aux++) {
-			displayLine(Z[aux]);
-			HAL_Delay(DELAY_TIME);
+			displayLine(chZ[aux]);
+			myDelay(DELAY_TIME);
 			displayLine(0);
 		}
 		return;
 	}
 
-    HAL_Delay(DELAY_SPACE);
-    
-    
 }
 
-void displayString (char* str)
+void displayString(char* str)
 {
-    for (int aux = 0; aux < strlen(str); aux++) {
-        displayChar(str[aux]);
-    }   
+	int it;
+	for(it=0;it <= strlen(str); it++){
+		displayChar(str[it]);
+
+	}
 }
-
-

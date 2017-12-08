@@ -1,0 +1,6 @@
+lsd.c:53:8:getSpeed	24	static
+lsd.c:72:6:myDelayGlob	16	static
+lsd.c:80:6:myDelay	16	static
+lsd.c:88:6:displayLine	8	static
+lsd.c:133:6:displayChar	16	static
+lsd.c:375:6:displayString	16	static

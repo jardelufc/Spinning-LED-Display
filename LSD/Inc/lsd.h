@@ -8,6 +8,8 @@
 #ifndef LSD_H_
 #define LSD_H_
 
+#include <time.h>
+
 /*
  * Top               Bottom
  * 128 64 32 16 8 4 2 1
@@ -17,53 +19,77 @@
  *
  *
  */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-#define L0 1
-#define L1 2
-#define L2 4
-#define L3 8
-#define L4 16
-#define L5 32
-#define L6 64
-#define L7 128
-#define LALL 255
 
-#define DELAY_TIME 1
-#define DELAY_SPACE 2
+/*
+int a[] = {L0+L2+L3, LALL-L7-L6, LALL-L0-L1, L7+L6+L4+L3,LALL-L0-L1,LALL-L7-L6,
+		L0+L2+L3};
 
-int A[]={255,255,152,152,255,255,0};
-int B[]={255,255,153,153,153,102,0};
-int C[]={255,255,195,195,195,195,0};
-int D[]={255,255,219,219,255,126,0};
-int E[]={255,255,219,219,195,195,0};
-int F[]={255,255,216,216,192,192,0};
-int G[]={126,255,195,133,231,102,0};
-int H[]={255,255,24,24,255,255,0};
-int I[]={0,195,255,255,195,0,0};
-int J[]={6,199,195,255,254,192,0};
-int K[]={255,255,24,60,231,195,0};
-int L[]={255,255,3,3,3,0,0};
-int M[]={255,255,96,48,96,255,255};
-int N[]={255,255,96,48,24,255,255};
-int O[]={126,255,195,195,255,126,0};
-int P[]={255,255,216,216,248,248,0};
-int Q[]={126,255,129,131,255,126,0};
-int R[]={255,255,216,220,247,99,0};
-int S[]={102,247,147,147,223,78,0};
-int T[]={192,192,255,255,192,192,0};
-int U[]={254,255,3,3,255,254,0};
-int V[]={224,252,31,3,31,252,224};
-int X[]={195,247,62,24,62,247,195};
-int Y[]={192,240,59,63,252,240,0};
-int Z[]={0,199,207,219,243,227,0};
+int b[] = {LALL, LALL, L7+L4+L0, LALL-L2, LALL, L6+L1+L2+L3};
 
+int C[] = {L2+L3+L4+L5, LALL-L0, L7+L6+L1+L0, L7+L0+L1, L7+L0, L7+L0+L1,
+		L7+L1};
+
+int d[] = {LALL, LALL, L0+L7, L0+L7+L1, L0+L7+L1+L6, LALL-L0, LALL-L7-L0};
+
+int e[] = {LALL, LALL, L7+L4+L3+L1+L0, L7+L4+L3+L1+L0, L7+L4+L1+L0};
+
+int f[] = {LALL, LALL, L7+L4+L3, L7+L4+L3, L7+L4};
+
+int g[] = {L2+L3+L4+L5, LALL-L0-L7, L7+L6+L0+L1, L7+L0+L1, L7+L0+L3+L4,
+		LALL-L6-L5, LALL-L6-L5};
+
+int h[] = {LALL, LALL, L3+L4, L3+L4, L3+L4, LALL, LALL};
+
+int i[] = {LALL, LALL};
+
+int j[] = {L0, L0+L1, LALL, LALL-L0};
+
+int k[] = {LALL, LALL, L5+L4+L3, LALL-L0, LALL-L5-L4, L0+L1+L7};
+
+int l[] = {LALL, LALL, LALL, L0+L1, L0+L1, L0+L1};
+
+int m[] = {LALL, LALL, L7+L6+L5+L4, LALL-L7, L0+L1+L2+L3, LALL-L0-L7-L6,
+		L7+L6+L5+L4, LALL, LALL};
+
+int n[] = {LALL, LALL, L7+L6+L5+L4, L5+L4+L3+L2, L0+L1+L2+L3, LALL, LALL};
+
+int o[] = {L2+L3+L4+L5, L2+L3+L4+L5+L6+L1, L7+L6+L0+L1+L2, L7+L0+L1, L0+L7,
+		L0+L1+L6+L7, LALL, LALL-L7-L0};
+
+int p[] = {LALL, LALL, L7+L3, L7+L3+L6+L4, L7+L6+L5+L4+L3, L6+L5};
+
+int q[] = {L2+L3+L4+L5, L2+L3+L4+L5+L6+L1, L7+L6+L0+L1+L2, L7+L0+L1, L0+L7,
+		L0+L1+L6+L7, LALL, LALL-L7, L1+L0, L0};
+
+int r[] = {LALL, LALL, L7+L4+L3, L7+L4+L3, LALL, LALL-L3};
+
+int s[] = {L0+L5, LALL-L2-L3-L4,LALL-L3-L2-L1, L7+L4+L3+L1+L0, LALL-L6-L5,
+		L1+L2+L3+L7};
+
+int t[] = {L7, L7, L7+L6, LALL, LALL, L7, L7};
+
+int u[] = {LALL-L0, LALL, L0+L1, L0, L0+L1, LALL, LALL-L0};
+
+int v[] = {L7+L6+L5, LALL-L0-L1, LALL-L7-L6, L0+L1+L2, LALL-L7-L6,
+		LALL-L0-L1-L2, L7+L6};
+
+int w[] = {L0, LALL-L0-L1-L2, L0+L1+L2+L3, LALL-L7, L4+L5+L6+L7, LALL-L0,
+		LALL-L5-L6-L7, LALL-L0-L1, L7+L6};
+
+int x[] = {L7+L0+L1, LALL-L4-L3, L2+L3+L4+L5, LALL, L7+L6+L0+L1, L0};
+
+int y[] = {L7, L7+L6+L5, LALL-L7, LALL-L7-L6-L5, L4+L5+L6, L7+L6+L5, L7};
+
+int z[] = {L7+L0+L1, L7+L0+L1+L2+L3, LALL-L6-L5, LALL-L2, L7+L6+L5+L0+L1,
+		L0+L1+L7+L6};
+*/
 void displayLine (int line);
 void displayChar (char ch);
 void displayString (char* str);
-
+void myDelay (int ms);
+void myDelayGlob (int ms);
 double getSpeed ();
+
 
 #endif /* LSD_H_ */
